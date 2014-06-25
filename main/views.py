@@ -85,11 +85,10 @@ def submitRequest(request):
   if toEmail is not None:
     # FIXME: Send out emails
     print "Trying to send email"
-    notificationSuccess = False
+    notificationSuccess = notificationSuccess or False
 
   viewContextDict = {'error': None}
-  if not notificationSuccess:
-    # We did not notify the user about this request. No use in storing request obj
+  if not notificationSuccess: # We did not notify the user about this request. No use in storing request obj
     requestObj.delete()
     viewContextDict['error'] = notificationError
   else:
