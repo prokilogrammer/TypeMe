@@ -1,0 +1,116 @@
+<html>
+  <head> </head>
+
+  <body>
+
+    <table id="requestTable">
+    </table>
+
+    <table id="responseTable">
+    </table>
+
+    <script type="text/template" id="requestRowTemplate">
+      <td> <input type="text" name="requestInput"> 'hi' </input> </td>
+      <td> <button onClick=""> Add another </button> </td>
+    </script> 
+
+    <script type="text/template" id="responseRowTemplate">
+      <td> <%- key -%> </td>
+      <td> <%- value -%> </td>
+    </script>
+
+    <script type="text/javascript">
+       // Shim to make Backbone compatible with TastyPie
+       window.TastypieModel = Backbone.Model.extend({
+         base_url: function() {
+           var temp_url = Backbone.Model.prototype.url.call(this);
+           return (temp_url.charAt(temp_url.length - 1) == '/' ? temp_url : temp_url+'/');
+         },
+ 
+         url: function() {
+           return this.base_url();
+           }
+       });
+ 
+       window.TastypieCollection = Backbone.Collection.extend({
+         parse: function(response) {
+             this.recent_meta = response.meta || {};
+             return response.objects || response;
+         }
+       }); 
+
+        var urlRoot = "/api/v1"
+
+        var app = {}; // namespace for our app
+
+        app.Request = window.TastypieModel.extend({
+            url: urlRoot + "/request/"
+            });
+
+        app.RequestCollection = window.TastypieCollection.extend({
+          model: app.Request,
+          url: urlRoot + "/request/"
+          });
+
+        // Instantiate the collection
+        app.requestCollection = new app.RequestCollection();
+
+        // Views
+
+        app.RequestView = Backbone.View.extend({
+          tagName: 'tr',
+          template: _.template($('requestRowTemplate').html()),
+          render: function() {
+          }
+          });
+
+        app.ResponseView = Backbone.View.extend({
+          tagName: 'tr',
+          template: _.template($('#responseRowTemplate').html()),
+          render: function() {
+            this.$el.html(this.template(this.responseData.toJSON()));
+            return this; // enable chained calls
+          }
+        });
+
+      app.AppView = Backbone.View.extend({
+        el: '#responseTable',
+
+        initialize: function() {
+          // Initialize buttons
+          // 1. Save; 2. Refresh; 3. Add addition row
+
+          // Update the view when response field in request model is populated
+          // FIXME: Is this correct?
+          app.requestCollection.on('update', this.updateViewWithResponse, this);
+          app.requestCollection.on('reset', this.addAll, this);
+        },
+
+        events: {
+          'click #refresh': 'fetchResponse'
+        },
+
+        fetchResponse: function(e){
+          app.requestCollection.fetch();  // I need to update existing models. Is this correct?
+        },
+
+        updateViewWithResponse: function(user){
+          // Update the view only if there is a response
+          if ('responseData' in user)
+          {
+            var view = new app.ResponseView({responseData: user.responseData});
+            this.$el.append(view.render().el);
+          }
+        }
+
+        addAll: function() {
+          this.$el.html(''); // clear the table
+          app.requestCollection.each(this.updateViewWithResponse, this);
+        }
+      });
+
+
+    </script>
+
+  </body>
+</html>

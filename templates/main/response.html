@@ -1,0 +1,22 @@
+<html>
+
+  <body>
+
+    <form id='responseForm' method="GET" action="{% url 'submitResponse' %}">
+      <input name="requestId" type="hidden" value="{{ requestId }}"></input>
+      <table>
+        {% for field in fields %}
+        <tr>
+          <td> {{ field }} </td>
+          <td> <input name= '{{ field }}'> </input> </td>
+        </tr>
+        {% endfor %}
+      </table>
+
+      <input type="submit"> </input>
+
+    </form>
+
+  </body>
+
+</html>

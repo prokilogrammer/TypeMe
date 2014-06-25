@@ -1,0 +1,66 @@
+<html>
+  <body>
+<script type="text/javascript">
+function addAnother()
+{
+    var table = document.getElementById('requestTable');
+    var row = table.insertRow(-1);
+    var cell0 = row.insertCell(0);
+    cell0.innerHTML = '<input type="text" name="fieldName"> </input>';
+    var cell1 = row.insertCell(1);
+    cell1.innerHTML = '<button onClick="return addAnother()"> Add another </button>';
+
+    return false;
+}
+    
+function sendRequest()
+{
+    // ######## UNUSED #########
+    var requestInput = []
+    var inputCollection = document.getElementsByName("requestInput");
+    for (var i=0; i < inputCollection.length; i++)
+    {
+        var input = inputCollection[i];
+        requestInput[requestInput.length] = input.value;
+    }
+    
+    var phone = document.getElementById('requestPhone').value;
+    var email = document.getElementById('requestEmail').value;
+    
+    var requestObj = {};
+    requestObj['phone'] = phone;
+    requestObj['email'] = email;
+    requestObj['fields'] = requestInput;
+    
+    console.log(requestObj);
+}
+</script> 
+
+<form id="requestForm" method="GET" action="{% url 'submitRequest' %}">
+  <table id="requestTable">
+      <tr> 
+          <td> Phone #:  </td>
+          <td> <input type="text" name="phone"> </input>
+      </tr>
+       
+      <tr> 
+          <td> Email: </td>
+          <td> <input type="text" name="email"> </input>
+      </tr>   
+         
+          <tr> <td> <p> </p> <td> </tr>    
+          <tr> <td> <p> </p> <td> </tr>   
+          <tr> <td> Enter name of fields: <td> </tr>               
+      <tr>
+       <td> <input type="text" name="fieldName"> </input> </td>
+       <td> <button onClick="return addAnother()"> Add another </button> </td>
+      </tr>    
+  </table>
+
+  <button onClick="sendRequest()"> Submit </button>
+</form>
+
+</body>
+</html>
+
+    

@@ -1,0 +1,25 @@
+<html>
+  <body>
+    
+    {% if error %}
+
+      {{ error }}
+
+    {% else %}
+
+      Your form has been submitted. Please click the button below to refresh. After the form has been filled, your result will appear in this screen.
+
+      <form method="GET" action="{% url 'refresh' %}" target="resultFrame">
+        <input type="hidden" value="{{ id }}" name="id" />
+
+        <input type="submit" value="Check for response"> </input>
+      </form>
+
+      <iframe name="resultFrame" src="" style="border: none">
+
+      </iframe>
+
+    {% endif %}
+
+  </body>
+</html>
