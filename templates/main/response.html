@@ -1,21 +1,33 @@
+<!doctype html>
+<html lang="en">
 <html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
+
+    <!--[if IE]> <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
+  </head>
 
   <body>
 
-    <form id='responseForm' method="GET" action="{% url 'submitResponse' %}">
-      <input name="requestId" type="hidden" value="{{ requestId }}"></input>
-      <table>
-        {% for field in fields %}
-        <tr>
-          <td> {{ field }} </td>
-          <td> <input name= '{{ field }}'> </input> </td>
-        </tr>
-        {% endfor %}
-      </table>
+    <section>
+      <form id='responseForm' method="GET" action="{% url 'submitResponse' %}">
+        <input name="requestId" type="hidden" value="{{ requestId }}"></input>
+        <table id='responseTable'>
+          {% for field in fields %}
+          <tr>
+            <td> {{ field }} </td>
+            <td> <input name= '{{ field }}'> </input> </td>
+          </tr>
+          {% endfor %}
+        </table>
 
-      <input type="submit"> </input>
-
-    </form>
+        <input type="submit"> </input>
+      </form>
+    </section>
 
   </body>
 

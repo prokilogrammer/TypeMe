@@ -110,6 +110,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
   STATIC_PATH,
+  os.path.join(STATIC_PATH, 'css'),
   )
 
 TEMPLATE_DIRS = (

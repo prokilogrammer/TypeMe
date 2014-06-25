@@ -1,4 +1,12 @@
+<!doctype html>
 <html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width; initial-scale=1; maximum-scale=1">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/style.css">
+
+    <!--[if IE]> <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  </head>
   <body>
 <script type="text/javascript">
 function addAnother()
@@ -36,6 +44,7 @@ function sendRequest()
 }
 </script> 
 
+<section>
 <form id="requestForm" method="GET" action="{% url 'submitRequest' %}">
   <table id="requestTable">
       <tr> 
@@ -50,7 +59,7 @@ function sendRequest()
          
           <tr> <td> <p> </p> <td> </tr>    
           <tr> <td> <p> </p> <td> </tr>   
-          <tr> <td> Enter name of fields: <td> </tr>               
+          <tr> <td> Enter field names: <td> </tr>               
       <tr>
        <td> <input type="text" name="fieldName"> </input> </td>
        <td> <button onClick="return addAnother()"> Add another </button> </td>
@@ -59,6 +68,7 @@ function sendRequest()
 
   <button onClick="sendRequest()"> Submit </button>
 </form>
+</section>
 
 </body>
 </html>
